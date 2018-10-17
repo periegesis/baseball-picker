@@ -3,6 +3,7 @@ import './App.css';
 import { User, UserStates } from './common/user'
 
 import logo from './logo.svg';
+import { TeamPicker } from './setup/TeamPicker';
 
 class App extends React.Component {
   public render() {
@@ -14,9 +15,7 @@ class App extends React.Component {
             <img src={logo} className="App-logo" alt="logo" />
             <h1 className="App-title">Welcome Anonymous user, pick a team</h1>
           </header>
-          <p className="App-intro">
-            To get started, edit <code>src/App.tsx</code> and save to reload.
-          </p>
+          <TeamPicker></TeamPicker>
         </div>
       );
     } else {
