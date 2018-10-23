@@ -1,5 +1,6 @@
-export const SET_FAVORITE_TEAM = "SET_FAVORITE_TEAM";
-export type SET_FAVORITE_TEAM = typeof SET_FAVORITE_TEAM;
+export const enum FavoriteTeamActionTypes {
+    SetFavoriteTeam = "FavoriteTeam_Set",
+}
 
 export const enum GameFeaturesActionTypes {
     Blowouts = "GameFeature_Blowout",
@@ -7,11 +8,19 @@ export const enum GameFeaturesActionTypes {
 };
 
 export interface FavoriteTeamAction {
-    type: SET_FAVORITE_TEAM;
+    type: FavoriteTeamActionTypes.SetFavoriteTeam;
     favoriteTeam: string;
 }
 
 export interface GameFeaturesAction {
     type: GameFeaturesActionTypes;
     preference: boolean;
+}
+
+export function setFavoriteTeam(favoriteTeam: string): FavoriteTeamAction {
+    console.log(favoriteTeam);
+    return {
+        type: FavoriteTeamActionTypes.SetFavoriteTeam,
+        favoriteTeam: favoriteTeam
+    }
 }

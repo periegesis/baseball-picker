@@ -1,8 +1,8 @@
-import { FavoriteTeamAction, SET_FAVORITE_TEAM } from '../actions';
+import { FavoriteTeamAction, FavoriteTeamActionTypes } from '../actions';
 
-export function favoriteTeam(state: string, action: FavoriteTeamAction): string {
+export function favoriteTeam(state: string = "NONE", action: FavoriteTeamAction): string {
     switch (action.type) {
-        case SET_FAVORITE_TEAM:
+        case FavoriteTeamActionTypes.SetFavoriteTeam:
             return action.favoriteTeam;
     }
     return state;

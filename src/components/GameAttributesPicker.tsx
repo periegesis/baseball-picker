@@ -1,19 +1,21 @@
 import * as React from 'react';
-import { TeamNames } from 'src/common/teamNames';
-import { TeamOption } from './TeamPicker';
+import { TeamNames } from '../common/teamNames';
 
 export interface Props {
-  name: string;
-  enthusiasmLevel?: number;
+    setFavoriteTeam?: (selectedTeam: string) => void;
 }
 
 interface State {
-  selectedTeam: string;
+    selectedTeam: string,
+    setFavoriteTeam?: (selectedTeam: string) => void
 }
 
 export class GameAttributesPicker extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
+        this.state = {
+            selectedTeam: 'NONE'
+        };
     }
 
     public render() {
@@ -29,8 +31,18 @@ export class GameAttributesPicker extends React.Component<Props, State> {
                         { cur_teams.map(team => <option key={team.value} value={team.value}>{team.display}</option>)}
                     </select>
                 </div>
-                <button onClick={() => console.log(this.state)}>Next</button>
+                <button onClick={() => this.props.setFavoriteTeam != null && this.props.setFavoriteTeam(this.state.selectedTeam) }>Next</button>
             </div>
         );
+    }
+}
+
+export class TeamOption {
+    public value: string;
+    public display: string;
+
+    constructor(value: string, display: string) {
+        this.value = value;
+        this.display = display;
     }
 }

@@ -1,6 +1,6 @@
 import { GameFeaturesAction, GameFeaturesActionTypes } from '../actions/index'
 
-export function gameFeatures(state: UserGamePrefsData, action: GameFeaturesAction): UserGamePrefsData {
+export function gameFeatures(state: UserGamePrefsData = { blowouts: false, comebacksIn9: false, favoriteTeamLosing: false }, action: GameFeaturesAction): UserGamePrefsData {
     switch (action.type) {
         case GameFeaturesActionTypes.Blowouts:
             return { ...state, blowouts: action.preference };
@@ -11,7 +11,6 @@ export function gameFeatures(state: UserGamePrefsData, action: GameFeaturesActio
 }
 
 export interface UserGamePrefsData {
-    favoriteTeam: string;
     blowouts: boolean;
     //comebacksIn7: boolean;
     comebacksIn9: boolean;

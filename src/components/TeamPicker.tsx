@@ -1,10 +1,23 @@
 import * as React from 'react';
 import { TeamNames } from '../common/teamNames';
 
-export class TeamPicker extends React.Component {
-    state = {
-        selectedTeam: 'NONE'
-    };
+export interface Props {
+    setFavoriteTeam?: (selectedTeam: string) => void;
+}
+
+interface State {
+    selectedTeam: string,
+    setFavoriteTeam?: (selectedTeam: string) => void
+}
+
+export class TeamPicker extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        
+        this.state = {
+            selectedTeam: 'NONE'
+        };
+    }
 
     public render() {
         let cur_teams = Object.keys(TeamNames).map(team => new TeamOption(team, TeamNames[team]));
@@ -19,7 +32,7 @@ export class TeamPicker extends React.Component {
                         { cur_teams.map(team => <option key={team.value} value={team.value}>{team.display}</option>)}
                     </select>
                 </div>
-                <button onClick={() => console.log(this.state)}>Next</button>
+                <button onClick={() => this.props.setFavoriteTeam != null && this.props.setFavoriteTeam(this.state.selectedTeam) }>Next</button>
             </div>
         );
     }
