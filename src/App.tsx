@@ -3,7 +3,7 @@ import './App.css';
 import { User, UserStates } from './common/user'
 
 import logo from './logo.svg';
-import { TeamPicker } from './setup/TeamPicker';
+import { TeamPicker } from './components/TeamPicker';
 
 class App extends React.Component {
   public render() {

@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { TeamNames } from 'src/common/teamNames';
+import { TeamOption } from './TeamPicker';
 
 export interface Props {
   name: string;
@@ -6,7 +8,7 @@ export interface Props {
 }
 
 interface State {
-  currentEnthusiasm: number;
+  selectedTeam: string;
 }
 
 export class GameAttributesPicker extends React.Component<Props, State> {
