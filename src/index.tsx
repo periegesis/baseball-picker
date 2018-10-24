@@ -5,10 +5,14 @@ import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { store } from './reducers';
 import { TeamPickerContainer } from './containers/TeamPicker';
+import { GameAttributesPickerContainer } from './containers/GameAttributesPicker';
 
 ReactDOM.render(
   <Provider store={store}>
-    <TeamPickerContainer />
+    <div>
+      <TeamPickerContainer />
+      <GameAttributesPickerContainer />
+    </div>
   </Provider>,
   document.getElementById('root') as HTMLElement
 );

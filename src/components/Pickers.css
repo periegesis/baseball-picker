@@ -1,0 +1,31 @@
+.section-panel {
+    margin: 12px 25%;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 16px;
+    padding-bottom: 16px;
+    background-color: blue;
+    color: white;
+    border-radius: 16px;
+}
+
+h3 {
+    margin: 0 0 8px 0;
+}
+
+button {
+    padding: 6px 12px;
+    font-size: 12px;
+    align-content: center;
+    background-color: white;
+    border: none;
+    margin: 8px 0;
+}
+
+fieldset {
+    border: none;
+}
+
+.game-attribute-question {
+    margin: 8px;
+}
