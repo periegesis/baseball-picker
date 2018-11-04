@@ -27,11 +27,12 @@ export class TeamPicker extends React.Component<Props, State> {
             <div className="section-panel">
                 <h3>What is your favorite team?</h3>
                 <div className="dropdown">
-                    <select value={this.state.selectedTeam} onChange={(e) => this.setState({selectedTeam: e.target.value})}>
+                    <select value={this.state.selectedTeam} 
+                            onChange={(e) => this.setState({selectedTeam: e.target.value})}
+                            onBlur ={() => this.props.setFavoriteTeam != null && this.props.setFavoriteTeam(this.state.selectedTeam)}>
                         { cur_teams.map(team => <option key={team.value} value={team.value}>{team.display}</option>)}
                     </select>
                 </div>
-                <button onClick={() => this.props.setFavoriteTeam != null && this.props.setFavoriteTeam(this.state.selectedTeam) }>Next</button>
             </div>
         );
     }

@@ -79,7 +79,7 @@ export class GameAttributesPicker extends React.Component<Props, UserGamePrefsDa
                         </label>
                     </fieldset>
                 </div>
-                <button onClick={() => this.props.setGamePreferences != null && this.props.setGamePreferences(this.state) }>Next</button>
+                <button onClick={() => this.props.setGamePreferences != null && this.props.setGamePreferences(this.state)}>Next</button>
             </div>
         );
     }

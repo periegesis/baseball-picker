@@ -1,4 +1,5 @@
 import { UserGamePrefsData } from '../reducers/userGamePrefsReducer';
+import { GameData } from '../reducers/selectedGameReducer';
 
 // TODO: refactor action boilerplate
 
@@ -15,6 +16,11 @@ export const enum GameFeaturesActionTypes {
     FavoriteTeamLosing = "GameFeature_FavoriteTeamLosing"
 };
 
+export const enum GameSelectionActionTypes {
+    GameSelectionRequested = "GameSelection_Requested",
+    GameSelectionReturned = "GameSelection_Returned"
+}
+
 export interface FavoriteTeamAction {
     type: FavoriteTeamActionTypes.SetFavoriteTeam;
     favoriteTeam: string;
@@ -23,6 +29,12 @@ export interface FavoriteTeamAction {
 export interface GameFeaturesAction {
     type: GameFeaturesActionTypes;
     preferences: UserGamePrefsData;
+}
+
+export interface GameSelectionAction {
+    type: GameSelectionActionTypes;
+    error?: string;
+    gameInfo?: GameData;
 }
 
 export function setFavoriteTeam(favoriteTeam: string): FavoriteTeamAction {
@@ -36,5 +48,12 @@ export function setGamePreferences(preferences: UserGamePrefsData): GameFeatures
     return {
         type: GameFeaturesActionTypes.AllPreferences,
         preferences: preferences
+    }
+}
+
+export function setSelectedGame(selectedGame: GameData): GameSelectionAction {
+    return {
+        type: GameSelectionActionTypes.GameSelectionReturned,
+        gameInfo: selectedGame
     }
 }
