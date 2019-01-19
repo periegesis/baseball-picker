@@ -1,4 +1,4 @@
-export const TeamNames = {
+const TeamNames = {
     "ARI": "Arizona Diamondbacks",
     "ATL": "Atlanta Braves",
     "BAL": "Baltimore Orioles",
@@ -15,4 +15,6 @@ export const TeamNames = {
     "PIT": "Pittsburgh Pirates",
     "SEA": "Seattle Mariners",
     "WAS": "Washington Nationals",
-}
+};
+
+export default TeamNames

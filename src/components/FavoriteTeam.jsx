@@ -1,18 +1,8 @@
-import * as React from 'react';
-import { TeamNames } from '../common/teamNames';
-import "./Pickers.css";
+import React, { Component } from 'react';
+import TeamNames from '../common/teamNames'
 
-export interface Props {
-    setFavoriteTeam?: (selectedTeam: string) => void;
-}
-
-interface State {
-    selectedTeam: string,
-    setFavoriteTeam?: (selectedTeam: string) => void
-}
-
-export class TeamPicker extends React.Component<Props, State> {
-    constructor(props: Props) {
+export default class FavoriteTeam extends Component {
+    constructor(props) {
         super(props);
         
         this.state = {
@@ -20,7 +10,7 @@ export class TeamPicker extends React.Component<Props, State> {
         };
     }
 
-    public render() {
+    render() {
         let cur_teams = Object.keys(TeamNames).map(team => new TeamOption(team, TeamNames[team]));
         cur_teams.unshift(new TeamOption("NONE", "No preference"));
         return (
@@ -39,10 +29,10 @@ export class TeamPicker extends React.Component<Props, State> {
 }
 
 export class TeamOption {
-    public value: string;
-    public display: string;
+    value;
+    display;
 
-    constructor(value: string, display: string) {
+    constructor(value, display) {
         this.value = value;
         this.display = display;
     }
