@@ -1,14 +1,7 @@
-import * as React from 'react';
-import { TeamNames } from '../common/teamNames';
-import { UserGamePrefsData } from 'src/data/reducers/userGamePrefsReducer';
-import "./Pickers.css";
+import React, { Component } from 'react';
 
-export interface Props {
-    setGamePreferences?: (prefs: UserGamePrefsData) => void;
-}
-
-export class GameAttributesPicker extends React.Component<Props, UserGamePrefsData> {
-    constructor(props: Props) {
+export default class GameFeatures extends Component {
+    constructor(props) {
         super(props);
         this.state = {
             blowouts: false,
@@ -19,10 +12,8 @@ export class GameAttributesPicker extends React.Component<Props, UserGamePrefsDa
         };
     }
 
-    public render() {
-        let cur_teams = Object.keys(TeamNames).map(team => new TeamOption(team, TeamNames[team]));
-        cur_teams.unshift(new TeamOption("NONE", "No preference"));
-        return (
+    render() {
+        return ( 
             <div className="section-panel">
                 <div className="answer-panel">
                     <h3>What do you like to see happen in baseball games?</h3>
@@ -63,34 +54,7 @@ export class GameAttributesPicker extends React.Component<Props, UserGamePrefsDa
                         </label>
                     </div>
                 </div>
-                <div>
-                    <h3>Will you still enjoy a game where your favorite team loses?</h3>
-                    <fieldset>
-                        <label>
-                            Yes
-                            <input 
-                                type="radio"
-                                checked={this.state.favoriteTeamLosing}
-                                onChange={(e) => this.setState({ favoriteTeamLosing: true })} />
-                        </label>
-                        <label>
-                            No
-                            <input type="radio" checked={!this.state.favoriteTeamLosing} onChange={(e) => this.setState({ favoriteTeamLosing: false })} />
-                        </label>
-                    </fieldset>
-                </div>
-                <button onClick={() => this.props.setGamePreferences != null && this.props.setGamePreferences(this.state)}>Next</button>
             </div>
-        );
-    }
-}
-
-export class TeamOption {
-    public value: string;
-    public display: string;
-
-    constructor(value: string, display: string) {
-        this.value = value;
-        this.display = display;
+        )
     }
 }
