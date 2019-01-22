@@ -18,6 +18,16 @@
   color: white;
 }
 
+.App .panel {
+  display: block;
+}
+
+@media(min-width: 1200px) {
+  .App .panel {
+    display: flex;
+  }
+}
+
 .App-link {
   color: #61dafb;
 }

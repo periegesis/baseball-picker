@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import YouTube from 'react-youtube';
 import Jumbotron from 'react-bootstrap/lib/Jumbotron'
 import GameFeatures from './components/GameFeatures'
 import './App.css';
@@ -11,9 +12,11 @@ class App extends Component {
 
     this.setFavoriteTeam = this.setFavoriteTeam.bind(this);
     this.setPropState = this.setPropState.bind(this);
+    this.fetchGame = this.fetchGame.bind(this);
     this.state = {
       favoriteTeam: "NONE",
       props: 0,
+      video: {}
     }
   }
 
@@ -25,13 +28,23 @@ class App extends Component {
     this.setState({ props });
   }
 
+  fetchGame() {
+    fetch('https://bytcim69qk.execute-api.us-east-1.amazonaws.com/beta?team=' + this.state.favoriteTeam + '&props=' + this.state.props, {
+      method: 'GET',
+      mode: 'cors',
+    })
+      .then(result => result.json())
+      .then(items => this.setState({ video: items }))
+      .catch(e => console.log(e))
+  }
+
   render() {
     return (
       <div className="App">
         <h1>Baseball Game Randomizer</h1>
         <h2>Watch your favorite team play as much as you like</h2>
         <Jumbotron>
-          <div style={{display: "flex" }}>
+          <div className="panel">
           <FavoriteTeam
             favoriteTeam={this.state.favoriteTeam}
             setFavoriteTeam={this.setFavoriteTeam} />
@@ -43,7 +56,8 @@ class App extends Component {
             setPropState={this.setPropState} />
           </div>
         </Jumbotron>
-        <button>Find Game</button>
+        <button onClick={this.fetchGame}>Find Game</button>
+        {this.state.video.snippet && <YouTube videoId={this.state.video.id.videoId} />}
       </div>
     );
   }
