@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
+import { GameFlags } from '../common/properties';
 
 export default class GameFeatures extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            blowouts: false,
-            highScoring: false,
-            comebacksIn9: false,
-            pitching: false,
-            favoriteTeamLosing: false
-        };
-    }
-
     render() {
         return ( 
             <div className="section-panel">
@@ -22,8 +12,8 @@ export default class GameFeatures extends Component {
                             A big blowout win for my team
                             <input 
                                 type="checkbox"
-                                checked={this.state.blowouts}
-                                onChange={(e) => this.setState({ blowouts: e.target.checked })} />
+                                checked={this.props.gameProps & GameFlags.blowout}
+                                onChange={(e) => this.props.setPropState(e.target.checked ? this.props.gameProps | GameFlags.blowout : this.props.gameProps & ~GameFlags.blowout)} />
                         </label>
                     </div>
                     <div className="game-attribute-question">
@@ -31,8 +21,8 @@ export default class GameFeatures extends Component {
                             A game where both teams score a lot of runs
                             <input 
                                 type="checkbox"
-                                checked={this.state.highScoring}
-                                onChange={(e) => this.setState({ highScoring: e.target.checked })} />
+                                checked={this.props.gameProps & GameFlags.highScoring}
+                                onChange={(e) => this.props.setPropState(e.target.checked ? this.props.gameProps | GameFlags.highScoring : this.props.gameProps & ~GameFlags.highScoring)} />
                         </label>
                     </div>
                     <div className="game-attribute-question">
@@ -40,8 +30,8 @@ export default class GameFeatures extends Component {
                             One team coming from behind to win
                             <input 
                                 type="checkbox"
-                                checked={this.state.comebacksIn9}
-                                onChange={(e) => this.setState({ comebacksIn9: e.target.checked })} />
+                                checked={this.props.gameProps & GameFlags.comeback}
+                                onChange={(e) => this.props.setPropState(e.target.checked ? this.props.gameProps | GameFlags.comeback : this.props.gameProps & ~GameFlags.comeback)} />
                         </label>
                     </div>
                     <div className="game-attribute-question" onClick={(e) => this.setState({ pitching: true })}>
@@ -49,8 +39,8 @@ export default class GameFeatures extends Component {
                             A close pitcher's duel
                             <input 
                                 type="checkbox"
-                                checked={this.state.pitching}
-                                onChange={(e) => this.setState({ pitching: e.target.checked })} />
+                                checked={this.props.gameProps & GameFlags.pitching}
+                                onChange={(e) => this.props.setPropState(e.target.checked ? this.props.gameProps | GameFlags.pitching : this.props.gameProps & ~GameFlags.pitching)} />
                         </label>
                     </div>
                 </div>
