@@ -110,7 +110,10 @@ def lambda_handler(event, context):
     if (game != None):
       return {
         'statusCode': 200,
-        'body': json.dumps(game)
+        'body': json.dumps(game),
+        'headers': {
+          "Access-Control-Allow-Origin" : "*",
+        }
       }
     continue
 
