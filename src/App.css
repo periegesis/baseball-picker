@@ -26,6 +26,11 @@
   .App .panel {
     display: flex;
   }
+
+  .App .section-panel {
+    flex-basis: 200px;
+    flex-grow: 1;
+  }
 }
 
 .App-link {
