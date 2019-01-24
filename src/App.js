@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import YouTube from 'react-youtube';
+import Container from 'react-bootstrap/lib/Container';
+import Row from 'react-bootstrap/lib/Row'
+import Button from 'react-bootstrap/lib/Button'
+import Column from 'react-bootstrap/lib/Col'
 import Jumbotron from 'react-bootstrap/lib/Jumbotron'
 import GameFeatures from './components/GameFeatures'
-import './App.css';
+import './App.scss';
 import FavoriteTeam from './components/FavoriteTeam';
 import Dealbreakers from './components/Dealbreakers';
 
@@ -16,7 +20,7 @@ class App extends Component {
     this.state = {
       favoriteTeam: "NONE",
       props: 0,
-      video: {}
+      games: []
     }
   }
 
@@ -34,30 +38,61 @@ class App extends Component {
       mode: 'cors',
     })
       .then(result => result.json())
-      .then(items => this.setState({ video: items }))
+      .then(items => this.setState({ games: items }))
       .catch(e => console.log(e))
   }
 
   render() {
     return (
-      <div className="App">
-        <h1>Baseball Game Randomizer</h1>
-        <h2>Watch your favorite team play as much as you like</h2>
-        <Jumbotron>
-          <div className="panel">
-          <FavoriteTeam
-            favoriteTeam={this.state.favoriteTeam}
-            setFavoriteTeam={this.setFavoriteTeam} />
-          <GameFeatures
-            gameProps={this.state.props}
-            setPropState={this.setPropState} />
-          <Dealbreakers
-            gameProps={this.state.props}
-            setPropState={this.setPropState} />
-          </div>
+      <div>
+        <Container className="header-container">
+          <Row>
+            <Column>
+              <h1>Baseball Game Randomizer</h1>
+              <h2>Watch your favorite team play as much as you like</h2>
+            </Column>
+          </Row>
+        </Container>
+        <Jumbotron fluid>
+          <Container className="jumbotron-container">
+            <Row>
+              <Column xs={12} xl={4}>
+                <h3>What is your favorite team?</h3>
+              </Column>
+              <Column xs={12} xl={4}>
+                <h3>What do you want to see today?</h3>
+              </Column>
+              <Column xs={12} xl={4}>
+                <h3>What do you <i>not</i> want to see?</h3>
+              </Column>
+            </Row>
+            <Row>
+              <Column xs={12} xl={4}>
+                <FavoriteTeam
+                  favoriteTeam={this.state.favoriteTeam}
+                  setFavoriteTeam={this.setFavoriteTeam} />
+              </Column>
+              <Column xs={12} xl={4}>
+                <GameFeatures
+                  gameProps={this.state.props}
+                  setPropState={this.setPropState} />
+              </Column>
+              <Column xs={12} xl={4}>
+                <Dealbreakers
+                  gameProps={this.state.props}
+                  setPropState={this.setPropState} />
+              </Column>
+            </Row>
+          </Container>
         </Jumbotron>
-        <button onClick={this.fetchGame}>Find Game</button>
-        {this.state.video.snippet && <YouTube videoId={this.state.video.id.videoId} />}
+        <Container>
+          <Button onClick={this.fetchGame}>Find Game</Button>
+          {this.state.games.length > 0 && this.state.games.map((game) => { return(
+            <Row key={game}>
+              <Column><h3>{game}</h3></Column>
+            </Row>)
+          })}
+        </Container>
       </div>
     );
   }

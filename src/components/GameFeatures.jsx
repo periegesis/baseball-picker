@@ -6,9 +6,8 @@ export default class GameFeatures extends Component {
         return ( 
             <div className="section-panel">
                 <div className="answer-panel">
-                    <h3>What do you like to see happen in baseball games?</h3>
                     <div className="game-attribute-question">
-                        <label for="blowout">
+                        <label htmlFor="blowout">
                             <input 
                                 id="blowout"
                                 type="checkbox"
@@ -18,7 +17,7 @@ export default class GameFeatures extends Component {
                         </label>
                     </div>
                     <div className="game-attribute-question">
-                        <label for="high-scoring">
+                        <label htmlFor="high-scoring">
                             <input 
                                 id="high-scoring"
                                 type="checkbox"
@@ -28,7 +27,7 @@ export default class GameFeatures extends Component {
                         </label>
                     </div>
                     <div className="game-attribute-question">
-                        <label for="comeback">
+                        <label htmlFor="comeback">
                             <input 
                                 id="comeback"
                                 type="checkbox"
@@ -38,7 +37,7 @@ export default class GameFeatures extends Component {
                         </label>
                     </div>
                     <div className="game-attribute-question" onClick={(e) => this.setState({ pitching: true })}>
-                        <label for="pitching">
+                        <label htmlFor="pitching">
                             <input 
                                 id="pitching"
                                 type="checkbox"

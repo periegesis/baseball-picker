@@ -1,0 +1,20 @@
+input[type=checkbox], input[type=radio] {
+  margin-right: 5px;
+}
+
+.header-container {
+  margin-top: 16px;
+  margin-bottom: 32px;
+}
+
+.btn {
+  border-radius: 0 !important;
+}
+
+.jumbotron-container {
+  color: white;
+}
+
+$jumbotron_bg: #023467;
+$primary: #df0053;
+@import "node_modules/bootstrap/scss/bootstrap";

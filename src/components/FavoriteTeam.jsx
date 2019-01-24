@@ -7,7 +7,6 @@ export default class FavoriteTeam extends Component {
         cur_teams.unshift(new TeamOption("NONE", "No preference"));
         return (
             <div className="section-panel">
-                <h3>What is your favorite team?</h3>
                 <div className="dropdown">
                     <select value={this.props.favoriteTeam} 
                             onChange={(e) => this.props.setFavoriteTeam != null && this.props.setFavoriteTeam(e.target.value)}>

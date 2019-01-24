@@ -5,10 +5,9 @@ export default class Dealbreakers extends Component {
     render() {
         return (
             <div className="section-panel">
-                <h3>Will you still enjoy a game where your favorite team loses?</h3>
                 <fieldset>
                     <div className="game-attribute-question">
-                        <label for="any-losses">
+                        <label htmlFor="any-losses">
                             <input 
                                 id="any-losses"
                                 type="radio"
@@ -21,7 +20,7 @@ export default class Dealbreakers extends Component {
                         </label>
                     </div>
                     <div className="game-attribute-question">
-                        <label for="no-losses">
+                        <label htmlFor="no-losses">
                             <input 
                                 id="no-losses"
                                 type="radio" 
@@ -34,7 +33,7 @@ export default class Dealbreakers extends Component {
                         </label>
                     </div>
                     <div className="game-attribute-question">
-                        <label for="few-losses">
+                        <label htmlFor="few-losses">
                             <input 
                                 id="few-losses"
                                 type="radio"
