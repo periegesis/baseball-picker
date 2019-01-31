@@ -14,6 +14,7 @@ const TeamNames = {
     "PHI": "Philadelphia Phillies",
     "PIT": "Pittsburgh Pirates",
     "SEA": "Seattle Mariners",
+    "SLN": "St. Louis Cardinals",
     "WAS": "Washington Nationals",
 };
 

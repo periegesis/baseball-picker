@@ -15,6 +15,10 @@ input[type=checkbox], input[type=radio] {
   color: white;
 }
 
+.section-panel {
+  padding-top: 16px;
+}
+
 $jumbotron_bg: #023467;
 $primary: #df0053;
 @import "node_modules/bootstrap/scss/bootstrap";

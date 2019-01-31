@@ -1,5 +1,5 @@
 /**
- * IMPORTANT
+ * IMPORTANT: DO NOT MODIFY EXISTING VALUES
  * must be kept in sync with lambda function
  */
 
