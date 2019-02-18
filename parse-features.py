@@ -1,4 +1,7 @@
 import csv
+import re
+
+video_id_match = re.compile(r'"videoId": "(.*)"}}}')
 
 def parse_game(game_data):
     game_features = []
@@ -11,6 +14,7 @@ def parse_game(game_data):
     game_features.append(away_team_obp(game_data))
     game_features.append(home_team_obp(game_data))
     game_features.append(comeback_in_ninth(game_data))
+    game_features.append(find_video(game_data))
     return game_features
 
 def date(game_data):
@@ -66,13 +70,50 @@ def runs_per_inning(box_score):
             runs.append(int(box_score[i]))
     return runs
 
-with open("game-features.txt", "w+") as outfile:
-    for year in range(2009, 2018):
-        with open("C:/Users/rahar/Documents/Projects/baseball-picker/game-data/GL%s.TXT" % year) as underlying_file:
-            infile = csv.reader(underlying_file, skipinitialspace=True)
-            for line in infile:
-                game_features = parse_game(line)
-                outfile.write(",".join(game_features))
-                outfile.write("\n")
-        underlying_file.close()
+def find_video(game_data):
+    title = build_title(game_data)
+    infile = open("game-videos-present.txt")
+    for line in infile:
+        if line.startswith(title):
+            id = video_id_match.search(line)
+            if (id is not None):
+                infile.close()
+                return id.groups()[0]
+            else:
+                return "INVALID_VIDEO_FOUND"
+    infile.close()
+    return "NO_VIDEO_FOUND"
+
+def build_title(game_data):
+  monthMap = {
+    "01": "January",
+    "02": "February",
+    "03": "March",
+    "04": "April",
+    "05": "May",
+    "06": "June",
+    "07": "July",
+    "08": "August",
+    "09": "September",
+    "10": "October",
+    "11": "November",
+    "12": "December"
+  }
+
+  year = game_data[0][0:4]
+  month = monthMap[game_data[0][4:6]]
+  day = game_data[0][6:8]
+  if (day[0] == "0"):
+    day = day[1]
+  return game_data[3] + " AT " + game_data[6] + " - " + month + " " + day + ", " + year
+
+with open("game-features.txt", "a") as outfile:
+    year = 2018
+    with open("./game-data/GL%s.TXT" % year) as underlying_file:
+        infile = csv.reader(underlying_file, skipinitialspace=True)
+        for line in infile:
+            game_features = parse_game(line)
+            outfile.write(",".join(game_features))
+            outfile.write("\n")
+    underlying_file.close()
 outfile.close()

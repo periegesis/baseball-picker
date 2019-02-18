@@ -35,26 +35,19 @@ class App extends Component {
   }
 
   fetchGame() {
-    // fetch(
-    //   "https://bytcim69qk.execute-api.us-east-1.amazonaws.com/beta?team=" +
-    //     this.state.favoriteTeam +
-    //     "&props=" +
-    //     this.state.props,
-    //   {
-    //     method: "GET",
-    //     mode: "cors"
-    //   }
-    // )
-    //   .then(result => result.json())
-    //   .then(items => this.setState({ games: items }))
-    //   .catch(e => console.log(e));
-    this.setState({
-      games: [
-        { awayTeam: "NYN", homeTeam: "BOS", date: "September 16, 2018", videoId: "8Kk1-msfR_g", preview: "https://i.ytimg.com/vi/8Kk1-msfR_g/mqdefault.jpg" },
-        { awayTeam: "NYN", homeTeam: "BOS", date: "May 24, 2009", videoId: "fnR1yqwJBzs", preview: "https://i.ytimg.com/vi/fnR1yqwJBzs/mqdefault.jpg" },
-        { awayTeam: "SLN", homeTeam: "NYN", date: "March 24, 2012", videoId: "CLqzSl_tcr0", preview: "https://i.ytimg.com/vi/CLqzSl_tcr0/mqdefault.jpg" }
-      ]
-    })
+    fetch(
+      "https://bytcim69qk.execute-api.us-east-1.amazonaws.com/beta?team=" +
+        this.state.favoriteTeam +
+        "&props=" +
+        this.state.props,
+      {
+        method: "GET",
+        mode: "cors"
+      }
+    )
+      .then(result => result.json())
+      .then(items => this.setState({ games: items }))
+      .catch(e => console.log(e));
   }
 
   render() {
@@ -70,7 +63,7 @@ class App extends Component {
         </Container>
         <Jumbotron fluid>
           <Container className="jumbotron-container">
-            <Row>
+            <Row className="hidden-xs-down">
               <Column xs={12} xl={4}>
                 <h3>What is your favorite team?</h3>
               </Column>
@@ -78,25 +71,26 @@ class App extends Component {
                 <h3>What do you want to see today?</h3>
               </Column>
               <Column xs={12} xl={4}>
-                <h3>
-                  What do you <i>not</i> want to see?
-                </h3>
+                <h3>What do you <i>not</i> want to see?</h3>
               </Column>
             </Row>
             <Row>
               <Column xs={12} xl={4}>
+                <h3 className="hidden-xs-up">What is your favorite team?</h3>
                 <FavoriteTeam
                   favoriteTeam={this.state.favoriteTeam}
                   setFavoriteTeam={this.setFavoriteTeam}
                 />
               </Column>
               <Column xs={12} xl={4}>
+                <h3 className="hidden-xs-up">What do you want to see today?</h3>
                 <GameFeatures
                   gameProps={this.state.props}
                   setPropState={this.setPropState}
                 />
               </Column>
               <Column xs={12} xl={4}>
+                <h3 className="hidden-xs-up">What do you <i>not</i> want to see?</h3>
                 <Dealbreakers
                   gameProps={this.state.props}
                   setPropState={this.setPropState}
@@ -110,13 +104,12 @@ class App extends Component {
           <CardDeck>
             {this.state.games.length > 0 &&
               this.state.games.map(game => {
-                var link = "https://www.youtube.com/watch?v=" + game.videoId
                 return (
                   <Card key={game.videoId}>
-                    <a href={link}
+                    <a href={`https://www.youtube.com/watch?v=${game.videoId}`}
                       target="_blank"
                       style={{ position: "absolute", top: 0, left: 0, height: "100%", width: "100%" }} />
-                    <Card.Img variant="top" src={game.preview} />
+                    <Card.Img variant="top" src={`https://i.ytimg.com/vi/${game.videoId}/mqdefault.jpg`} />
                     <Card.Body>
                       <Card.Title>{TeamNames[game.awayTeam]} at {TeamNames[game.homeTeam]}</Card.Title>
                       <Card.Text>{game.date}</Card.Text>

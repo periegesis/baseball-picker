@@ -26,6 +26,16 @@ export default class Dealbreakers extends Component {
               id="losses">
             </input>
           </div>
+          <div className="game-attribute-question">
+            <label htmlFor="blowout">
+              <input 
+                id="video-quality"
+                type="checkbox"
+                checked={this.props.gameProps & DealbreakerFlags.videoQuality}
+                onChange={(e) => this.props.setPropState(e.target.checked ? this.props.gameProps | DealbreakerFlags.videoQuality : this.props.gameProps & ~DealbreakerFlags.videoQuality)} />
+                Bad video quality (will restrict to games after 2015)
+            </label>
+          </div>
         </fieldset>
       </div>
     );

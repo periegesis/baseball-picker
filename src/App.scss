@@ -19,6 +19,18 @@ input[type=checkbox], input[type=radio] {
   padding-top: 16px;
 }
 
+.hidden-xs-down {
+  @media (max-width: 1199px) {
+    display: none !important;
+  }
+}
+
+.hidden-xs-up {
+  @media (min-width: 1200px) {
+    display: none !important;
+  }
+}
+
 $jumbotron_bg: #023467;
 $primary: #df0053;
 @import "node_modules/bootstrap/scss/bootstrap";

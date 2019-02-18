@@ -4,20 +4,21 @@ import argparse
 import json
 import random
 
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+blowout = 1
+highScoring = 2
+comeback = 4,
+pitching = 8
+noLosses = 16
+anyLosses = 32
+fewLosses = 64
+videoQuality = 128
 
-def get_api_key():
-  authFile = open("auth.txt", "r")
-  for line in authFile:
-    if line.startswith("YOUTUBE_DEV_KEY"):
-      return line.split("=")[1]
-  return ""
+filesize = 1628656
+qualityVideoStart = 1017692
 
-def get_random_line(file):
-  # function copied from https://stackoverflow.com/questions/10819911/read-random-lines-from-huge-csv-file-in-python
-  filesize = 1268286                 # number of characters in game-features.txt
-  offset = random.randrange(filesize)
+def get_random_line(file, start):
+  # function adapted from https://stackoverflow.com/questions/10819911/read-random-lines-from-huge-csv-file-in-python
+  offset = random.randrange(start, filesize)
 
   file.seek(offset)                  # go to random position
   file.readline()                    # discard the partial line
@@ -30,17 +31,36 @@ def get_random_line(file):
   
   return random_line
 
+def validate_game(game, team, props):
+  if game[9].startswith("NO_VIDEO_FOUND"):
+    return False
+  if team != 'NONE' and not (game[1] == team or game[2] == team):
+    return False
+  if props & noLosses > 0 and team != game[3]:
+    return False
+  return True
 
-def get_game(team, props):
+def isDuplicate(existingGames, newGame):
+  for game in existingGames:
+    if game[0] == newGame[0] and game[1] == newGame[1] and game[2] == newGame[2] and game[3] == newGame[3]:
+      return True
+  return False
+
+def random_games(team, props):
+  propsVal = int(props)
+  games = []
   f = open('game-features.txt')
-  for i in range(21867):
-    random_game = get_random_line(f).split(',')
-    if random_game[3] == team:
-      f.close()
-      return random_game
+  available_game_count = 19439
+  for i in range(available_game_count):   # prevents us from iterating forever if fewer than three games match
+    start = qualityVideoStart if propsVal & videoQuality > 0 else 0
+    random_game = get_random_line(f, start).split(',')
+    if validate_game(random_game, team, propsVal) and not isDuplicate(games, random_game):
+      games.append(random_game)
+      if len(games) == 3:
+        f.close()
+        return games
 
-
-def build_title(game_data):
+def build_date(game_data):
   monthMap = {
     "01": "January",
     "02": "February",
@@ -61,73 +81,45 @@ def build_title(game_data):
   day = game_data[0][6:8]
   if (day[0] == "0"):
     day = day[1]
-  return game_data[1] + " AT " + game_data[2] + " - " + month + " " + day + ", " + year
+  return month + " " + day + ", " + year
 
-DEVELOPER_KEY = get_api_key()
-YOUTUBE_API_SERVICE_NAME = 'youtube'
-YOUTUBE_API_VERSION = 'v3'
-
-def youtube_search(query):
-  youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
-    developerKey=DEVELOPER_KEY)
-
-  # Call the search.list method to retrieve results matching the specified
-  # query term.
-  search_response = youtube.search().list(
-    q=query,
-    part='id,snippet',
-    maxResults=3
-  ).execute()
-
-  videos = []
-
-  # Check that the exact video 1) exists, and 2) is unique
-  for search_result in search_response.get('items', []):
-    if search_result['id']['kind'] == 'youtube#video':
-      print(json.dumps(search_result))
-      if search_result['snippet']['title'] == query and search_result['snippet']['channelTitle'].startswith("MLB"):
-        videos.append(search_result)
-  if len(videos) == 1:
-    print('Found video with the title: ' + query)
-    return videos[0]
-  elif len(videos) > 1:
-    print('More than one video with this title was found: ' + query)
-    return None
-  else:
-    print('Video with this title was not in search results: ' + query)
-    return None
-
-def random_game(team, props):
-  gameData = get_game(team, props)
-  query = build_title(gameData)
-  return youtube_search(query)
+def clean_game_data(games):
+  clean_games = []
+  for game in games:
+    videoId = game[9][0:-1]   # remove newline at end of videoId
+    clean_games.append({
+      "awayTeam": game[1],
+      "homeTeam": game[2],
+      "date": build_date(game),
+      "videoId": videoId
+    })
+  return clean_games
 
 def lambda_handler(event, context):
   team = event["queryStringParameters"]["team"]
   props = event["queryStringParameters"]["props"]
-  for i in range(3):
-    game = random_game(team, props)
-    if (game != None):
-      return {
-        'statusCode': 200,
-        'body': json.dumps(game),
-        'headers': {
-          "Access-Control-Allow-Origin" : "*",
-        }
+  games = clean_game_data(random_games(team, props))
+  if (games != None):
+    return {
+      'statusCode': 200,
+      'body': json.dumps(games),
+      'headers': {
+        "Access-Control-Allow-Origin" : "*",
       }
-    continue
+    }
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
-  parser.add_argument('--q', help='Team', default='BOS')
+  parser.add_argument('--q', help='Team', default='NONE')
+  parser.add_argument('--p', help='Props', default=0)
   args = parser.parse_args()
 
   try:
     queryStringParameters = {}
     queryStringParameters["team"] = args.q
-    queryStringParameters["props"] = None
+    queryStringParameters["props"] = args.p
     event = {}
     event["queryStringParameters"] = queryStringParameters
-    lambda_handler(event, None)
-  except HttpError as e:
+    print(lambda_handler(event, None))
+  except Error as e:
     print('An HTTP error %d occurred:\n%s' % (e.resp.status, e.content))

@@ -13,7 +13,8 @@ const GameFlags = {
 const DealbreakerFlags = {
     noLosses: 16,
     anyLosses: 32,
-    fewLosses: 64
+    fewLosses: 64,
+    videoQuality: 128,
 };
 
 export { GameFlags, DealbreakerFlags } 

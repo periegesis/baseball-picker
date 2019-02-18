@@ -13,7 +13,7 @@ YOUTUBE_API_SERVICE_NAME = 'youtube'
 YOUTUBE_API_VERSION = 'v3'
 youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
 
-normal_game = re.compile(r'[A-Z]{3}(.*)AT(.*)[A-Z]{3}')
+normal_game = re.compile(r'[A-Z]{3}\sAT\s[A-Z]{3}')
 world_series = re.compile(r'WORLD(.*)SERIES')
 alcs = re.compile(r'AL(.*)GAME')
 nlcs = re.compile(r'NL(.*)GAME')
@@ -23,7 +23,7 @@ def youtube_search(next_page, start_time):
   # query term.
   if (next_page != None):
     search_response = youtube.activities().list(
-      channelId='UC4UPjWuKWWS6DvsM55yTPGw',
+      channelId='UCoLrcjPV5PbUrUyXq5mjc_A',
       part='id,snippet,contentDetails',
       publishedBefore=start_time,
       pageToken=next_page,
@@ -31,7 +31,7 @@ def youtube_search(next_page, start_time):
     ).execute()
   else:
     search_response = youtube.activities().list(
-      channelId='UC4UPjWuKWWS6DvsM55yTPGw',
+      channelId='UCoLrcjPV5PbUrUyXq5mjc_A',
       part='id,snippet,contentDetails',
       publishedBefore=start_time,
       pageToken=next_page,
@@ -52,12 +52,12 @@ def full_game(title):
 
 def print_results(out_file, results):
   for result in results['items']:
-    if result['kind'] == 'youtube#activity' and full_game(result['snippet']['title']):
+    if result['kind'] == 'youtube#activity' and 'title' in result['snippet'] and full_game(result['snippet']['title']):
       out_file.write(result['snippet']['title'] + ', ' + json.dumps(result))
       out_file.write('\n')
     
-with open("game-videos-2011.txt", "w+") as outfile:
-  start_time='2019-01-11T13:39:20.000Z'
+with open("game-videos-present.txt", "a") as outfile:
+  start_time='2015-10-30T00:00:48.000Z'
   try:
     results = youtube_search(None, start_time)
     print_results(outfile, results)
